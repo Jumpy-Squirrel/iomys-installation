@@ -14,6 +14,12 @@
     - name: install ufw
       apt:
         name: ufw
+    - name: install python-apt
+      apt:
+        name: python-apt
+    - name: install aptitude
+      apt:
+        name: aptitude
 
 - name: Perform system update
   hosts: all
