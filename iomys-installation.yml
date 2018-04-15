@@ -149,12 +149,14 @@
         owner: root
         group: tomcat8
         mode: 0640
+      notify: restart tomcat
     - name: make certificate readable for tomcat
       file:
         name: /etc/tomcat8/tomcat-keystore.jks
         owner: root
         group: tomcat8
         mode: 0640
+      notify: restart tomcat
   handlers:
     - name: restart tomcat
       service:
