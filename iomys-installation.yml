@@ -139,7 +139,7 @@
       ignore_errors: true
       register: java_cert
     - name: create self-signed certificate
-      shell: 'keytool -genkey -noprompt -keyalg RSA -alias selfsigned -dname "CN=Jumpy Squirrel, OU=ID, O=Squirrels, L=Unknown, S=Unknown, C=DE" -keystore /etc/tomcat8/tomcat-keystore.jks -storepass changeit -keypass password -validity 720 -keysize 4096'
+      shell: 'keytool -genkey -noprompt -keyalg RSA -alias selfsigned -dname "CN=Jumpy Squirrel, OU=ID, O=Squirrels, L=Unknown, S=Unknown, C=DE" -keystore /etc/tomcat8/tomcat-keystore.jks -storepass changeit -keypass changeit -validity 720 -keysize 4096'
       when: java_cert.stat.exists == false
       notify: restart tomcat
     - name: create tomcat server.xml for ssl with cert
