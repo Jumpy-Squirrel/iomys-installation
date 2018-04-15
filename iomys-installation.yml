@@ -99,6 +99,11 @@
     - name: install mysql client
       apt:
         name: mysql-client
+    - name: enable and start mysql
+      service:
+        name: mysql
+        enabled: true
+        state: started
 
 - name: Set up tomcat subsystem
   hosts: all
@@ -108,6 +113,50 @@
     - name: install jdk headless
       apt:
         name: default-jdk-headless
+    - name: install make
+      apt:
+        name: make
     - name: install tomcat 8
       apt:
         name: tomcat8
+    - name: enable and start tomcat
+      service:
+        name: tomcat8
+        enabled: true
+        state: started
+    - name: install mysql java connector
+      apt:
+        name: libmysql-java
+    - name: add mysql connector to tomcat libs
+      file:
+        name: /var/lib/tomcat8/lib/mysql-connector-java.jar
+        src: /usr/share/java/mysql-connector-java.jar
+        state: link
+      notify: restart tomcat
+    - name: check if self-signed certificate already exists
+      stat:
+        path: /etc/tomcat8/tomcat-keystore.jks
+      ignore_errors: true
+      register: java_cert
+    - name: create self-signed certificate
+      shell: 'keytool -genkey -noprompt -keyalg RSA -alias selfsigned -dname "CN=Jumpy Squirrel, OU=ID, O=Squirrels, L=Unknown, S=Unknown, C=DE" -keystore /etc/tomcat8/tomcat-keystore.jks -storepass changeit -keypass password -validity 720 -keysize 4096'
+      when: java_cert.stat.exists == false
+      notify: restart tomcat
+    - name: create tomcat server.xml for ssl with cert
+      template:
+        src: server.xml.j2
+        dest: /etc/tomcat8/server.xml
+        owner: root
+        group: tomcat8
+        mode: 0640
+    - name: make certificate readable for tomcat
+      file:
+        name: /etc/tomcat8/tomcat-keystore.jks
+        owner: root
+        group: tomcat8
+        mode: 0640
+  handlers:
+    - name: restart tomcat
+      service:
+        name: tomcat8
+        state: restarted
