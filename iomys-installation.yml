@@ -1,0 +1,27 @@
+---
+- name: Install all the needed packages
+  hosts: all
+  tags:
+    - install_packages
+  tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: install tcsh
+      apt:
+        name: tcsh
+    - name: install ufw
+      apt:
+        name: ufw
+
+- name: Perform system update
+  hosts: all
+  tags:
+    - system_upgrade
+  tasks:
+    - name: apt upgrade
+      apt:
+        update_cache: yes
+        upgrade: full
+        cache_valid_time: 3600
