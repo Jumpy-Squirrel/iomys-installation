@@ -1,8 +1,8 @@
 # iomys-installation
 
-Last done: April 2018
+Last done: October 2018
 
-- Download Ubuntu 16.04.4 LTS server
+- Download Ubuntu 18.04.1 LTS server
 - create VM (without easyinstall, 1 core, 1 GB, 20G disk)
 - put install image in virtual DVD drive
 - Start the VM
