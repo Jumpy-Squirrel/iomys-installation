@@ -1,8 +1,8 @@
 # iomys-installation
 
-Last done: October 2018
+Last done: May 2022
 
-- Download Ubuntu 18.04.1 LTS server
+- Download Ubuntu 22.04 LTS server
 - create VM (without easyinstall, 1 core, 1 GB, 20G disk)
 - put install image in virtual DVD drive
 - Start the VM
@@ -14,6 +14,7 @@ Last done: October 2018
   + ```sudo apt-get install ansible```
   + ```git clone https://github.com/Jumpy-Squirrel/iomys-installation.git```
   + ```cd iomys-installation```
+  + ```sudo mkdir -p /etc/ansible```
   + ```sudo sh -c 'echo "localhost ansible_connection=local" >> /etc/ansible/hosts'```
   + ```sudo ansible-playbook iomys-installation.yml```
 
